@@ -43,11 +43,40 @@ PATTERNS = {
     "shellfish": r"\b(shrimp|crab|lobster|mussels|clams|scallops|prawns|oysters)\b",
     "sesame": r"\b(sesame|tahini|sesame seeds|sesame oil)\b",
     "alcohol": r"\b(beer|wine|vodka|rum|whiskey|tequila)\b",
-    "processed_meats": r"\b(bacon|salami|ham|sausage|chorizo|hot dog|pepperoni)\b",
+    "processed-meats": r"\b(bacon|salami|ham|sausage|chorizo|hot dog|pepperoni)\b",
     "legumes": r"\b(lentil|chickpea|kidney bean|black bean|navy bean|soybean|pea)\b"
 }
 
 # Creates a dictionary of ingredients and functions to check for them. 
 PATTERN_FUNCTIONS = {name:make_contains_fn(pattern) for name, pattern in PATTERNS}
 
-# Adding isVegan, isVegetarian, and isKeto
+# Creates a dictionary of common diets and functions to verify them
+def make_satisfies_diet(ingredients, *restriction_funcs):
+    return all(f(ingredients) for f in restriction_funcs)
+
+# Returns a dictionary of all diets to be checked for and their restrictions
+# get_diets: () -> Dictionary
+def get_diets():
+    vegetarian = ["pork", "beef", "chicken", "fish", "shellfish", "processed-meats"]
+    vegan = [*vegetarian, "eggs", "dairy", "honey"]
+    pescatarian = [item for item in vegetarian if item != "fish"]
+    dairy_free = ["dairy"]
+    egg_free = ["egg"]
+    keto = ["high-carb"]
+    gluten_free = ["gluten"]
+    nut_free = ["nuts"]
+    paleo = ["dairy", "high_carb", "gluten", "processed_meats", "legumes", "sugar"]
+    low_sodium = ["processed_meats", "soy"]
+    alcohol_free = ["alcohol"]
+    halal = ["pork", "alcohol", "processed_meats"]  # conservative approximation
+    kosher = ["pork", "shellfish"]  # conservative approximation
+
+
+
+DIET_FUNCTIONS = {
+         "paleo", 
+         "low-sodium",
+         "dairy-free",
+         "alcohol-free",
+         "halal",
+         "kosher"}
