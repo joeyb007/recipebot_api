@@ -22,7 +22,7 @@ def make_contains_fn(pattern):
         for ingredient in ingredients:
             if compiled.search(ingredient):
                 return True
-            return False
+        return False
     return contains
 
 
@@ -37,33 +37,30 @@ PATTERNS = {
     "honey": r"\b(honey)\b",
     "nuts": r"\b(almond|almonds|cashew|cashews|peanut|peanuts|walnut|walnuts|pecan|pecans|hazelnut|filbert|filberts|pistachio|pistachios|macadamia|brazil nut|brazil nuts)\b",
     "peanuts": r"\b(peanut|peanuts)\b",
-    "high-carb": r"\b(sugar|flour|rice|pasta|potato|corn|oats|beans)\b",
+    "high_carb": r"\b(sugar|flour|rice|pasta|potato|corn|oats|beans)\b",
     "gluten": r"\b(wheat|flour|barley|rye|semolina|breadcrumbs|malt)\b",
     "soy": r"\b(soy|soy sauce|tofu|edamame|soybean|miso)\b",
     "shellfish": r"\b(shrimp|crab|lobster|mussels|clams|scallops|prawns|oysters)\b",
     "sesame": r"\b(sesame|tahini|sesame seeds|sesame oil)\b",
     "alcohol": r"\b(beer|wine|vodka|rum|whiskey|tequila)\b",
-    "processed-meats": r"\b(bacon|salami|ham|sausage|chorizo|hot dog|pepperoni)\b",
-    "legumes": r"\b(lentil|chickpea|kidney bean|black bean|navy bean|soybean|pea)\b"
+    "processed_meats": r"\b(bacon|salami|ham|sausage|chorizo|hot dog|pepperoni)\b",
+    "legumes": r"\b(lentil|chickpea|kidney bean|black bean|navy bean|soybean|pea)\b",
+    "sugar": r"\b(sugar|brown sugar|powdered sugar|caster sugar|granulated sugar)\b"
 }
 
 # Creates a dictionary of ingredients and functions to check for them. 
-PATTERN_FUNCTIONS = {name:make_contains_fn(pattern) for name, pattern in PATTERNS}
-
-# Creates a dictionary of common diets and functions to verify them
-def make_satisfies_diet(ingredients, *restriction_funcs):
-    return all(f(ingredients) for f in restriction_funcs)
+PATTERN_FUNCTIONS = {name:make_contains_fn(pattern) for name, pattern in PATTERNS.items()}
 
 # Returns a dictionary of all diets to be checked for and their restrictions
 # get_diets: () -> Dictionary
 def get_diets():
     #defining constraints for each diet
-    vegetarian = ["pork", "beef", "chicken", "fish", "shellfish", "processed-meats"]
+    vegetarian = ["pork", "beef", "chicken", "fish", "shellfish", "processed_meats"]
     vegan = [*vegetarian, "eggs", "dairy", "honey"]
     pescatarian = [item for item in vegetarian if item != "fish"]
     dairy_free = ["dairy"]
-    egg_free = ["egg"]
-    keto = ["high-carb"]
+    egg_free = ["eggs"]
+    keto = ["high_carb"]
     gluten_free = ["gluten"]
     nut_free = ["nuts"]
     paleo = ["dairy", "high_carb", "gluten", "processed_meats", "legumes", "sugar"]
@@ -72,7 +69,7 @@ def get_diets():
     halal = ["pork", "alcohol", "processed_meats"]  # conservative approximation
     kosher = ["pork", "shellfish"]  # conservative approximation
 
-    # Returning all diets and constraints
+    # Returning all diets and corresponding lists of constraints
     return {
         "vegetarian": vegetarian,
         "vegan": vegan,
@@ -91,3 +88,21 @@ def get_diets():
 
 DIETS = get_diets()
 
+# Defines a function that, given a list of restrictions, returns a function that consumes a list of
+# ingredients and ensures that each ingredient complies with all the given restrictions 
+def make_complies_with_diet(restrictions):
+    restriction_functions = [PATTERN_FUNCTIONS[restriction] for restriction in restrictions]
+    def complies_with_diet(ingredients):
+        return not any(f(ingredients) for f in restriction_functions)
+    return complies_with_diet
+
+
+DIET_FUNCTIONS = {diet:make_complies_with_diet(restriction) for diet, restriction in DIETS.items()}
+
+# Example usage
+
+if __name__ == "__main__":
+    sample_ingredients = ["chicken breast", "almonds", "milk", "flour"]
+    print(f"Given the sample ingredients, {', '.join(sample_ingredients)}, we recieve:")
+    print("Vegan:", DIET_FUNCTIONS["vegan"](sample_ingredients))  # False
+    print("Vegetarian:", DIET_FUNCTIONS["vegetarian"](sample_ingredients))  # False
