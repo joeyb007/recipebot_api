@@ -57,6 +57,7 @@ def make_satisfies_diet(ingredients, *restriction_funcs):
 # Returns a dictionary of all diets to be checked for and their restrictions
 # get_diets: () -> Dictionary
 def get_diets():
+    #defining constraints for each diet
     vegetarian = ["pork", "beef", "chicken", "fish", "shellfish", "processed-meats"]
     vegan = [*vegetarian, "eggs", "dairy", "honey"]
     pescatarian = [item for item in vegetarian if item != "fish"]
@@ -71,12 +72,22 @@ def get_diets():
     halal = ["pork", "alcohol", "processed_meats"]  # conservative approximation
     kosher = ["pork", "shellfish"]  # conservative approximation
 
+    # Returning all diets and constraints
+    return {
+        "vegetarian": vegetarian,
+        "vegan": vegan,
+        "pescatarian": pescatarian,
+        "dairy_free": dairy_free,
+        "egg_free": egg_free,
+        "keto": keto,
+        "gluten_free": gluten_free,
+        "nut_free": nut_free,
+        "paleo": paleo,
+        "low_sodium": low_sodium,
+        "alcohol_free": alcohol_free,
+        "halal": halal,
+        "kosher": kosher
+    }
 
+DIETS = get_diets()
 
-DIET_FUNCTIONS = {
-         "paleo", 
-         "low-sodium",
-         "dairy-free",
-         "alcohol-free",
-         "halal",
-         "kosher"}
