@@ -28,12 +28,12 @@ def make_contains_fn(pattern):
 
 # Defining common ingredient classes and associated regex patterns 
 PATTERNS = {
-    "pork": r"\b(bacon|ham|prosciutto|pancetta|salami|sausage|chorizo)\b",
+    "pork": r"\b(pork|bacon|ham|prosciutto|pancetta|salami|sausage|chorizo)\b",
     "beef": r"\b(beef|steak|ground beef|corned beef|brisket)\b",
     "chicken": r"\b(chicken|drumstick|thigh|breast|poultry)\b",
     "fish": r"\b(fish|salmon|tuna|cod|shrimp|crab|lobster|scallop|clams|mussels)\b",
     "eggs": r"\b(egg|eggs|whites|yolk)\b",
-    "dairy": r"\b(milk|cheese|butter|cream|yogurt|ghee)\b",
+    "dairy": r"\b(dairy|milk|cheese|butter|cream|yogurt|ghee)\b",
     "honey": r"\b(honey)\b",
     "nuts": r"\b(almond|almonds|cashew|cashews|peanut|peanuts|walnut|walnuts|pecan|pecans|hazelnut|filbert|filberts|pistachio|pistachios|macadamia|brazil nut|brazil nuts)\b",
     "peanuts": r"\b(peanut|peanuts)\b",
