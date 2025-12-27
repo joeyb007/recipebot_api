@@ -51,6 +51,12 @@ PATTERNS = {
 # Creates a dictionary of ingredients and functions to check for them. 
 PATTERN_FUNCTIONS = {name:make_contains_fn(pattern) for name, pattern in PATTERNS.items()}
 
+def label_food_classes(ingredient_string):
+    res = {}
+    for ingredient, function in PATTERN_FUNCTIONS.items():
+        res[ingredient] = (1 if function(ingredient_string) else 0)
+    return res
+
 # Returns a dictionary of all diets to be checked for and their restrictions
 # get_diets: () -> Dictionary
 def get_diets():
