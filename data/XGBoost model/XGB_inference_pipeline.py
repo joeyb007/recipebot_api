@@ -7,4 +7,6 @@
 def preprocess_ingredients(list_of_ingredients):
     return ' '.join(list_of_ingredients)
 
-# 2. Vectorize
+# 2. Load models (for vectorization + XGB inference)
+import joblib
+
