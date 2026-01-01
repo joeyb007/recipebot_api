@@ -2,11 +2,13 @@
 # Pipeline function model:
 # Preprocess Data -> Vectorize -> XGB inference -> Return
 
+
+def classify_ingredients(list_of_ingredients):
+    # 1. Preprocess
+    ingredients_string = ' '.join(list_of_ingredients)
+    # 2. Vectorize
+
 # 1. Preprocess
 
-def preprocess_ingredients(list_of_ingredients):
-    return ' '.join(list_of_ingredients)
-
 # 2. Load models (for vectorization + XGB inference)
-import joblib
-
+from models.
