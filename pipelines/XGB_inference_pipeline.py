@@ -20,3 +20,8 @@ def classify_ingredients(list_of_ingredients):
         results[label] = 1 if prob >= 0.4 else 0
     # 4. Return
     return results
+
+
+if __name__ == '__main__':
+    res = classify_ingredients(["pancetta", "egg yolk", "cheese"])
+    print(res)
