@@ -20,3 +20,9 @@ class RecipeResponse(BaseModel):
     instructions: List[str]
     restrictions: List[str]
     nutrition: Nutrition
+
+class IngredientInferenceRequest(BaseModel):
+    ingredients: List[str]
+
+class IngredientInferenceResponse(BaseModel):
+    classes = Dict[str, str]
