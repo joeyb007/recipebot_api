@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from schemas import RecipeRequest, RecipeResponse
 import json
 
@@ -16,5 +16,10 @@ from schemas import IngredientInferenceRequest, IngredientInferenceResponse
 
 @app.post('/ingredient_inference', response_model=IngredientInferenceResponse)
 async def ingredient_inference(request: IngredientInferenceRequest):
+    if not request.ingredients:
+        raise HTTPException(
+            status_code=400,
+            detail="Ingredients list must be nonempty"
+        )
     forbidden_ingredients = request.ingredients
     return classify_ingredients(forbidden_ingredients)
