@@ -24,5 +24,9 @@ class RecipeResponse(BaseModel):
 class IngredientInferenceRequest(BaseModel):
     ingredients: List[str]
 
+class IngredientLabel(BaseModel):
+    probability: float
+    present: bool
+
 class IngredientInferenceResponse(BaseModel):
-    classes = Dict[str, str]
+    labels: dict[str, IngredientLabel]

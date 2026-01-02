@@ -17,7 +17,8 @@ def classify_ingredients(list_of_ingredients):
     for label, model in models.items():
         X = vectorized_ingredients
         prob = model.predict_proba(X)[0,1]
-        results[label] = 1 if prob >= 0.4 else 0
+        results[label] = {'probability': float(prob),
+                          'present': prob >= 0.4}
     # 4. Return
     return results
 
