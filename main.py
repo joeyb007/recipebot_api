@@ -27,4 +27,4 @@ async def ingredient_inference(request: IngredientInferenceRequest):
             status_code=413,
             detail='Request payload too large; ingredient list exceeds 100 items.'
         )
-    return classify_ingredients(forbidden_ingredients)
+    return {'labels': classify_ingredients(forbidden_ingredients)}

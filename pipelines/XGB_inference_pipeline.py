@@ -18,7 +18,7 @@ def classify_ingredients(list_of_ingredients):
         X = vectorized_ingredients
         prob = model.predict_proba(X)[0,1]
         results[label] = {'probability': float(prob),
-                          'present': prob >= 0.4}
+                          'present': bool(prob >= 0.4)}
     # 4. Return
     return results
 
