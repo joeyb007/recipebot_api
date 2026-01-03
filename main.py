@@ -22,4 +22,9 @@ async def ingredient_inference(request: IngredientInferenceRequest):
             detail="Ingredients list must be nonempty"
         )
     forbidden_ingredients = request.ingredients
+    if len(forbidden_ingredients) > 100:
+        raise HTTPException(
+            status_code=413,
+            detail='Request payload too large; ingredient list exceeds 100 items.'
+        )
     return classify_ingredients(forbidden_ingredients)
