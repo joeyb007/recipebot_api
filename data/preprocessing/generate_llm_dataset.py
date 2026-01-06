@@ -5,6 +5,13 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 PATH_TO_SEED_LABELS = BASE_DIR / 'data' / 'CSV_data' / 'seed_labeling_unlabeled.csv'
 PATH_TO_CLEANED_DATA = BASE_DIR / 'data' / 'CSV_data' / 'recipes_cleaned.csv'
 
-seed_labeled_data = pd.read_csv(PATH_TO_SEED_LABELS)
+# Removing seed labels from cleaned data
+seed_labeled_data_df = pd.read_csv(PATH_TO_SEED_LABELS)
+original_indices = seed_labeled_data_df['original_index']
+full_df = pd.read_csv(PATH_TO_CLEANED_DATA)
+filtered_df = full_df[~full_df.index.isin(original_indices)]
+filtered_df = filtered_df.reset_index(drop=True)
+
 if __name__ == '__main__':
-    print(seed_labeled_data)
+    # Should be exactly 10,000 less rows (removing all seed labels)
+    print(f'The original dataframe was {len(full_df)} rows, and is now {len(filtered_df)} rows')
