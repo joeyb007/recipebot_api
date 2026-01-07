@@ -12,6 +12,11 @@ full_df = pd.read_csv(PATH_TO_CLEANED_DATA)
 filtered_df = full_df[~full_df.index.isin(original_indices)]
 filtered_df = filtered_df.reset_index(drop=True)
 
+# Next, run models on this dataframe and create new rows
+from models.XGB_models.load_XGB import load_models
+
+XGB_models = load_models()
+
 if __name__ == '__main__':
     # Should be exactly 10,000 less rows (removing all seed labels)
-    print(f'The original dataframe was {len(full_df)} rows, and is now {len(filtered_df)} rows')
+    print(type(filtered_df))
